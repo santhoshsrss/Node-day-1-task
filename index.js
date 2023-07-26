@@ -1,12 +1,27 @@
-var http = require('http');
-var dt = require('./module');
-var server = http.createServer(function(req,res)
-{
-    res.writeHead(200, {'content-type':'text/html'});
-    const result=dt.datetime();
-    res.write('curent Date and time : ');
-    res.write(result);
-    res.end()
+import fs from "fs";
+import path from "path";
+const __dirname = path.resolve();
+const time = new Date().toLocaleString();
+const today = new Date();
 
-})
-server.listen(1234);
+const current = `Date ${today.getDate()}-${
+  today.getMonth() + 1
+}-${today.getFullYear()}, Time ${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}`;
+
+fs.writeFile(`./${current}.txt`, time, (err) => {
+  if (err) {
+    console.log(Error);
+  } else {
+    console.log("file created");
+  }
+});
+
+fs.readdir(__dirname, (err, files) => {
+  if (err) console.log(Error);
+  else {
+    console.log("Filenames with the .txt extension:");
+    files.forEach((file) => {
+      if (path.extname(file) == ".txt") console.log(file);
+    });
+  }
+});
